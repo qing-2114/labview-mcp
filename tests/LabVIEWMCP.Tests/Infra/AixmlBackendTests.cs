@@ -126,11 +126,12 @@ public sealed class AixmlBackendTests
     [Theory]
     [InlineData(2025, 2026, 2025)]
     [InlineData(2020, 2026, 2020)]
-    [InlineData(2019, 2026, null)]
+    [InlineData(2019, 2026, 2019)]
+    [InlineData(2018, 2026, null)]
     [InlineData(2026, 2026, null)]
     [InlineData(null, 2026, null)]
     [InlineData(2025, null, null)]
-    public void The_composer_writes_for_an_older_LabVIEW_from_2020_on(int? inUse, int? parts, int? expected) =>
+    public void The_composer_writes_for_an_older_LabVIEW_from_2019_on(int? inUse, int? parts, int? expected) =>
         Assert.Equal(expected, AixmlComposer.TargetRelease(inUse, parts));
 
     [Fact]

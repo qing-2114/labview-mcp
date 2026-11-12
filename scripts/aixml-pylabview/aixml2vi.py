@@ -7489,6 +7489,9 @@ class Composer:
             classes.setdefault(owner, {"qual": c["qual"], "lib_ref": c["lib_ref"]})
         if not classes:
             return
+        if self.target_major == 19:
+            raise Unsupported("LabVIEW 2019 class-linked VI generation is not supported by this composer; "
+                              "use a VI authored in LabVIEW 2019 for class-based code")
 
         def record(holder, tag, owner, second, content, tail, cache=None, at=None, call_parent=0):
             c = classes[owner]
@@ -11642,6 +11645,9 @@ def main(argv):
         if target is not None:
             retarget_version(bdir, base, target)
         lvheap.rebuild(main_xml, out_vi)
+    except Unsupported as ex:
+        print("UNSUPPORTED: %s" % ex, file=sys.stderr)
+        return 2
     finally:
         if not keep:
             shutil.rmtree(bdir, ignore_errors=True)

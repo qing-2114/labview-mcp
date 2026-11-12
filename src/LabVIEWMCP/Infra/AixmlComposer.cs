@@ -178,7 +178,7 @@ internal static class AixmlComposer
     /// the release's own records.
     /// </summary>
     internal static int? TargetRelease(int? labviewInUse, int? partsRelease) =>
-        labviewInUse is { } lv && partsRelease is { } parts && lv < parts && lv >= 2020 ? lv : null;
+        labviewInUse is { } lv && partsRelease is { } parts && lv < parts && lv >= 2019 ? lv : null;
 
     private static async Task<Result> ComposeCoreAsync(Setup setup, string aixmlPath, string viPath,
                                                        IReadOnlyList<string> searchFolders,
@@ -256,13 +256,13 @@ internal static class AixmlComposer
     internal static string? WarningForOlderLabView(int? labviewInUse, int? partsRelease) =>
         labviewInUse is { } lv && partsRelease is { } parts && lv < parts
             ? TargetRelease(lv, parts) is null
-                ? $"LabVIEW {lv} is in use and the composer writes files for LabVIEW 2020 and later " +
+                ? $"LabVIEW {lv} is in use and the composer writes files for LabVIEW 2019 and later " +
                   $"only, so this VI carries the LabVIEW {parts} stamp, which LabVIEW {lv} refuses " +
-                  "(Error 1125). Compose it with backend grpc on that station."
+                  "(Error 1125). Use a supported LabVIEW release."
                 : $"LabVIEW {lv} is in use, so the VI was written as a LabVIEW {lv} file - version " +
                   "stamps and version-dependent records rewritten. Its parts were cut from LabVIEW " +
-                  $"{parts} VIs; if LabVIEW {lv} still refuses it, quote its error and compose it " +
-                  "with backend grpc on that station."
+                  $"{parts} VIs; compatibility must be checked in the target IDE. " +
+                  "LabVIEW 2019 uses ActiveX and has no NI AI gRPC service."
             : null;
 
     /// <summary>VI -> AIXML, written to <paramref name="aixmlPath"/>.</summary>

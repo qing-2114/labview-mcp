@@ -1,4 +1,14 @@
-# LabVIEW MCP (for all LV versions)
+# LabVIEW MCP — LabVIEW 2019 compatibility fork
+
+This fork adds **experimental, bounded LabVIEW 2019 support** to Zuehlke/labview-mcp.
+It was tested against an actual LabVIEW 2019 SP1 f5 32-bit Professional IDE on Windows.
+Basic generated VIs, arrays, clusters, loops, branches and native diagram layout work.
+Waveform readback and detailed linker-error helpers currently fail on this installation;
+class-linked generation is explicitly refused for 2019. The entire tool catalog is not certified.
+
+**2019 setup, reproducible checks and limitations: [docs/labview-2019.md](docs/labview-2019.md).**
+Use the `support/labview-2019` branch and `pylabview`/ActiveX, not the upstream release executable.
+The upstream documentation below also describes newer LabVIEW versions and their NI gRPC service.
 
 <p align="center">
   <a href="https://github.com/Zuehlke/labview-mcp/releases/latest"><img src="https://img.shields.io/github/v/release/Zuehlke/labview-mcp?sort=semver&label=release" alt="Latest release"></a>
