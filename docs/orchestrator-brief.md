@@ -1,12 +1,6 @@
 # LabVIEW MCP: how to orchestrate LabVIEW work
 
-## This fork: LabVIEW 2019
-
-Read `docs/labview-2019.md` before operating LabVIEW 2019. Select `pylabview` explicitly;
-there is no NI AI gRPC service in 2019. Keep autosave files. Basic generation and native layout
-are tested; class-linked generation is refused. Waveform readback and detailed linker-error
-helpers currently fail in the tested 2019 IDE. A successful direct execution-state check does
-not mean linker errors were retrieved. Never label an unrun VI or untested DAQ device as verified.
+2019: `pylabview` only. Read `docs/labview-2019.md` for scope and known failures.
 
 You are the orchestrator. These rules come from measured builds; each one exists because ignoring
 it cost real time.

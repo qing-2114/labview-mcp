@@ -183,6 +183,12 @@ public class PublishedReleaseTests : IDisposable
             RedirectStandardError = true,
             UseShellExecute = false,
         };
+        // A test host launched from PowerShell 7 may pass only its own module paths to
+        // Windows PowerShell 5.1. Keep the latter's built-in Get-FileHash discoverable.
+        var windowsModules = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),
+            "WindowsPowerShell", "v1.0", "Modules");
+        psi.Environment["PSModulePath"] = windowsModules + Path.PathSeparator
+            + Environment.GetEnvironmentVariable("PSModulePath");
         psi.ArgumentList.Add("-NoProfile");
         psi.ArgumentList.Add("-ExecutionPolicy");
         psi.ArgumentList.Add("Bypass");
@@ -195,6 +201,8 @@ public class PublishedReleaseTests : IDisposable
         var stdout = process!.StandardOutput.ReadToEnd();
         var stderr = process.StandardError.ReadToEnd();
         process.WaitForExit(180_000);
+        if (process.ExitCode != 0 && !stdout.Contains("PUBLISHED RELEASE REJECTED", StringComparison.Ordinal))
+            throw new InvalidOperationException("Release verifier failed before its verdict:\n" + stdout + stderr);
         return (process.ExitCode, stdout + stderr);
     }
 

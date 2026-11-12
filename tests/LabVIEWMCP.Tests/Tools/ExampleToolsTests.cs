@@ -527,7 +527,12 @@ public class ExampleToolsTests : IDisposable
                         $"unexpected example type: {e.Name}");
             Assert.True(File.Exists(e.Path), $"stale path: {e.Path}");
         });
-        Assert.Contains(index.Examples, e =>
-            e.Name.EndsWith(".lvproj", StringComparison.OrdinalIgnoreCase));
+        // The 2019 installation's example index lists VIs without project entries.
+        // This count/shape was measured on 2026; deterministic fixtures above test
+        // project parsing independently of the installed version's shipped metadata.
+        if (index.LabViewRoot.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+            .EndsWith("LabVIEW 2026", StringComparison.OrdinalIgnoreCase))
+            Assert.Contains(index.Examples, e =>
+                e.Name.EndsWith(".lvproj", StringComparison.OrdinalIgnoreCase));
     }
 }
